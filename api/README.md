@@ -1,10 +1,26 @@
 # RealWorld API Spec
 
+## Running API tests locally
+
+To locally run the provided Postman collection against your backend, execute:
+
+```
+APIURL=http://localhost:3000/api ./run-api-tests.sh
+```
+
+For more details, see [`run-api-tests.sh`](run-api-tests.sh).
+
+## Considerations for your backend with [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+
+If the backend is about to run on a different host/port than the frontend, make sure to handle `OPTIONS` too and return correct `Access-Control-Allow-Origin` and `Access-Control-Allow-Headers` (e.g. `Content-Type`).
+
 ### Authentication Header:
 
 `Authorization: Token jwt.token.here`
 
 ## JSON Objects returned by API:
+
+Make sure the right content type like `Content-Type: application/json; charset=utf-8` is correctly returned.
 
 ### Users (for authentication)
 
@@ -42,6 +58,7 @@
     "title": "How to train your dragon",
     "description": "Ever wonder how?",
     "body": "It takes a Jacobian",
+    "tagList": ["dragons", "training"],
     "createdAt": "2016-02-18T03:22:56.637Z",
     "updatedAt": "2016-02-18T03:48:35.824Z",
     "favorited": false,
@@ -61,9 +78,10 @@
 ```JSON
 {
   "articles":[{
-    "description": "Ever wonder how?",
     "slug": "how-to-train-your-dragon",
     "title": "How to train your dragon",
+    "description": "Ever wonder how?",
+    "body": "It takes a Jacobian",
     "tagList": ["dragons", "training"],
     "createdAt": "2016-02-18T03:22:56.637Z",
     "updatedAt": "2016-02-18T03:48:35.824Z",
@@ -76,9 +94,10 @@
       "following": false
     }
   }, {
-    "description": "So toothless",
     "slug": "how-to-train-your-dragon-2",
     "title": "How to train your dragon 2",
+    "description": "So toothless",
+    "body": "It a dragon",
     "tagList": ["dragons", "training"],
     "createdAt": "2016-02-18T03:22:56.637Z",
     "updatedAt": "2016-02-18T03:48:35.824Z",
@@ -271,7 +290,7 @@ No additional parameters required
 
 `GET /api/articles`
 
-Returns most recent articles globally be default, provide `tag`, `author` or `favorited` query parameter to filter results
+Returns most recent articles globally by default, provide `tag`, `author` or `favorited` query parameter to filter results
 
 Query Parameters:
 
@@ -384,7 +403,7 @@ Example request body:
 
 Authentication required, returns the created [Comment](#single-comment)
 
-Required fields: `body`
+Required field: `body`
 
 
 
